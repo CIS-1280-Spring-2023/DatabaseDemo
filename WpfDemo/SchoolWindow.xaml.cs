@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using WPFDemo.Data;
 using WPFDemo.Models;
 
-namespace WPFDemo
+namespace WPFDemo.Views
 {
     /// <summary>
     /// Interaction logic for SchoolWindow.xaml
