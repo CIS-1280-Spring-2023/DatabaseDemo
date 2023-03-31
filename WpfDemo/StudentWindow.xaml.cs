@@ -36,6 +36,20 @@ namespace WPFDemo
         {
             InitializeComponent();
             this.st = st;
+            txbFirstName.Text = st.FirstName;
+            txbLastName.Text = st.LastName;
+            txbStudentNum.Text = st.StudentNumber;
+            if (st.Major != null)
+            {
+                for (int i = 0; i < school.Majors.Count; i++)
+                {
+                    if (school.Majors[i].Title == st.Major.Title)
+                    {
+                        cbxMajor.SelectedIndex = i; break;
+                    }
+                }
+            }
+            cbxMajor.SelectedIndex = 0;
 
             cbxCourse.ItemsSource = school.Course;
             cbxMajor.ItemsSource = school.Majors;

@@ -30,6 +30,7 @@ namespace WPFDemo.Data
                     int majorId = dr.GetInt32(4);
                     MajorRepo majorRepo = new MajorRepo();
                     Major major = majorRepo.GetMajor(majorId);
+                    student.Major = major;
                     students.Add(student);
                 }
             }
@@ -47,6 +48,38 @@ namespace WPFDemo.Data
                 cmd.Parameters.AddWithValue("@LastName", student.LastName);
                 cmd.Parameters.AddWithValue("@StudentNumber", student.StudentNumber);
                 cmd.Parameters.AddWithValue("@MajorId", student.Major.Id);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void UpdateStudent(Student student)
+        {
+            string sqlStr = $"UPDATE Student SET FirstName = @FirstName, LastName = @LastName, StudentNumber = @StudentNumber, MajorId = @MajorId WHERE Id = @Id;";
+
+            string connStr = ConfigurationManager.ConnectionStrings["SchoolDB"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                SqlCommand cmd = new SqlCommand(sqlStr, conn);
+                cmd.Parameters.AddWithValue("@FirstName", student.FirstName);
+                cmd.Parameters.AddWithValue("@LastName", student.LastName);
+                cmd.Parameters.AddWithValue("@StudentNumber", student.StudentNumber);
+                cmd.Parameters.AddWithValue("@MajorId", student.Major.Id);
+                cmd.Parameters.AddWithValue("@Id", student.Id);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteStudent(int id)
+        {
+            string sqlStr = $"DELETE FROM Student WHERE Id = @Id;";
+
+            string connStr = ConfigurationManager.ConnectionStrings["SchoolDB"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                SqlCommand cmd = new SqlCommand(sqlStr, conn);
+                cmd.Parameters.AddWithValue("@Id", id);
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }

@@ -51,7 +51,7 @@ namespace WPFDemo.Views
             school.Students = studentRepo.GetStudents();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             Student newStudent = new Student();
             StudentWindow studentWindow = new StudentWindow(newStudent, school);
@@ -113,6 +113,39 @@ namespace WPFDemo.Views
             lbCampuses.ItemsSource = null;
             lbCampuses.ItemsSource = school.Campuses;
 
+        }
+
+        private void lbStudents_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+                
+
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            Student student = (Student)lbStudents.SelectedItem;
+            StudentWindow studentWindow = new StudentWindow(student, school);
+
+            if (studentWindow.ShowDialog() == true)
+            {
+                studentRepo.UpdateStudent(studentWindow.Student);
+                //Update school list
+                school.Students = studentRepo.GetStudents();
+                //refresh list from database
+                lbStudents.ItemsSource = null;
+                lbStudents.ItemsSource = school.Students;
+            }
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Student student = (Student)lbStudents.SelectedItem;
+            studentRepo.DeleteStudent(student.Id);
+            //Update school list
+            school.Students = studentRepo.GetStudents();
+            //refresh list from database
+            lbStudents.ItemsSource = null;
+            lbStudents.ItemsSource = school.Students;
         }
     }
 }
